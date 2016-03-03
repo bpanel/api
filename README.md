@@ -7,60 +7,37 @@ config file and one controller.
 
 1. PHP 5.4 or greater
 2. Curl Library
-_Note: for 1.7.x support download v2.2 from Downloads tab_
 
-## Installation
 
-Drag and drop the **application/libraries/Format.php** and **application/libraries/REST_Controller.php** files into your application's directories. To use `require_once` it at the top of your controllers to load it into the scope. Additionally, copy the **rest.php** file from **application/config** in your application's configuration directory.
+## Order Flow
 
-## Handling Requests
+1. LLU Check (requestid)
+2. Order (new,migrate)
+3. Completed (orderid)
 
-When your controller extends from `REST_Controller`, the method names will be appended with the HTTP method used to access the request. If you're  making an HTTP `GET` call to `/books`, for instance, it would call a `Books#index_get()` method.
 
-This allows you to implement a RESTful interface easily:
+## API Information
+URL : https://api.billi.be/api/v1/<function name>
+DATA to Post in array
 
-```php
-class Books extends REST_Controller
-{
-  public function index_get()
-  {
-    // Display all books
-  }
 
-  public function index_post()
-  {
-    // Create a new book
-  }
-}
+## 1. LLU Check
+
+Before ordering xDSL line on an address we would need to check xDSL avaibility on the address 
+Function: checkaddress
+
+DATA:
+```array(
+        'street' => 'Noordenstraat',
+        'number' => '15',
+        'city' => 'Diepenbeek',
+        'postcode' => '3590'
+  );
 ```
 
-`REST_Controller` also supports `PUT` and `DELETE` methods, allowing you to support a truly RESTful interface.
+Response: 
+{"status":"true","requestid":100095,"result":{"vdsl":"OK","adsl":"OK","userid":"35961","lex":"11DIE0","street":"Noordenstraat","number":"15","alpha":null,"mailbox":null,"floor":null,"block":null,"postcode":"3590","attn":"0.4010","city":null,"aup":"512.0 Kbps","vup":"4.0 Mbps","adown":"6.0 Mbps","vdown":"50.0 Mbps"}}
 
-
-Accessing parameters is also easy. Simply use the name of the HTTP verb as a method:
-
-```php
-$this->get('blah'); // GET param
-$this->post('blah'); // POST param
-$this->put('blah'); // PUT param
-```
-
-The HTTP spec for DELETE requests precludes the use of parameters.  For delete requests, you can add items to the URL
-
-```php
-public function index_delete($id)
-{
-	$this->response([
-		'returned from delete:' => $id,
-	]);
-}
-```
-
-If query parameters are passed via the URL, regardless of whether it's a GET request, can be obtained by the query method:
-
-```php
-$this->query('blah'); // Query param
-```
 
 ## Content Types
 
