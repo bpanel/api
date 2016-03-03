@@ -17,7 +17,7 @@ config file and one controller.
 
 
 ## API Information
-URL : https://api.billi.be/api/v1/{function name}
+URL : https://api.billi.be/api/v1/{function}
 DATA to Post in array
 
 
@@ -32,30 +32,25 @@ DATA:
         'number' => '15',
         'city' => 'Diepenbeek',
         'postcode' => '3590'
-  );
-```
+  );```
 
 Response: 
-{"status":"true","requestid":100095,"result":{"vdsl":"OK","adsl":"OK","userid":"35961","lex":"11DIE0","street":"Noordenstraat","number":"15","alpha":null,"mailbox":null,"floor":null,"block":null,"postcode":"3590","attn":"0.4010","city":null,"aup":"512.0 Kbps","vup":"4.0 Mbps","adown":"6.0 Mbps","vdown":"50.0 Mbps"}}
+```{"status":"true","requestid":100095,"result":{"vdsl":"OK","adsl":"OK","userid":"35961","lex":"11DIE0","street":"Noordenstraat","number":"15","alpha":null,"mailbox":null,"floor":null,"block":null,"postcode":"3590","attn":"0.4010","city":null,"aup":"512.0 Kbps","vup":"4.0 Mbps","adown":"6.0 Mbps","vdown":"50.0 Mbps"}}```
 
 
-## Content Types
+## Ordering 1.1 (New)
 
-`REST_Controller` supports a bunch of different request/response formats, including XML, JSON and serialised PHP. By default, the class will check the URL and look for a format either as an extension or as a separate segment.
+After check above we would recieved data vdsl=>OK or adsl=OK  then we can order id using the requestid
+Function: addorder
 
-This means your URLs can look like this:
-```
-http://example.com/books.json
-http://example.com/books?format=json
-```
+DATA: 
+```array(
+        'requestid' => '100095',
+        'type' => 'new',
+        'ppp_username' => 'up1562454@BILLI',
+        'ppp_password' => '35d55xv90'
+  );```
 
-This can be flaky with URI segments, so the recommend approach is using the HTTP `Accept` header:
-
-```bash
-$ curl -H "Accept: application/json" http://example.com
-```
-
-Any responses you make from the class (see [responses](#responses) for more on this) will be serialised in the designated format.
 
 ## Responses
 
