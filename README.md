@@ -17,7 +17,7 @@ config file and one controller.
 
 
 ## API Information
-URL : https://api.billi.be/api/v1/<function name>
+URL : https://api.billi.be/api/v1/{function name}
 DATA to Post in array
 
 
